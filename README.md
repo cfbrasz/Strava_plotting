@@ -3,7 +3,7 @@ Scripts for plotting Strava data
 
 ## Getting started
 
-Downloaded your Strava data with the Bulk Export option from https://support.strava.com/hc/en-us/articles/216918437-Exporting-your-Data-and-Bulk-Export
+Download your Strava data with the Bulk Export option from https://support.strava.com/hc/en-us/articles/216918437-Exporting-your-Data-and-Bulk-Export
 
 To match the file paths I used, place the data in a subfolder of the repo and name it ```exported_data```
 
