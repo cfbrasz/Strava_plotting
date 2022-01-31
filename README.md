@@ -28,5 +28,6 @@ I used https://towardsdatascience.com/data-science-for-cycling-how-to-read-gpx-s
 ```plot_animation.py``` generates frames for an animation of cumulative heat maps starting from your first activity and progressing through to the last. The frames can be combined into an ```mp4``` movie with ```ffmpeg``` with the commands given in the ```bash``` script ```generate_animation.sh```.
 
 ## Example output
-![routes_boston_N2469_zoom](https://user-images.githubusercontent.com/2495587/150723934-3d9a5593-e1e8-4bd5-a3a1-e37c34984aa2.png)
-![routes_boston_N2469](https://user-images.githubusercontent.com/2495587/150723948-8c13a92d-13df-4d0a-90a8-caa833efd596.png)
+![routes_boston_N2229](https://user-images.githubusercontent.com/2495587/151738930-58fd8403-76ab-4158-b556-cf31bf543a4c.png)
+![routes_boston_N2229_zoom](https://user-images.githubusercontent.com/2495587/151738935-953a437e-a095-454c-9549-e77e7b83344f.png)
+
