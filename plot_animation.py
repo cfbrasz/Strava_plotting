@@ -7,6 +7,8 @@ import numpy as np
 import glob
 import sys
 
+from natsort import natsorted
+
 # Usage:
 # python3 plot_animation.py [Nstart] [frameSkip] [zoomIn]
 # Plots all frames for an animation of cumulative activities in chronological order
@@ -52,7 +54,8 @@ else:
   outfolder += 'vary_N/'
 suf=''
 
-filenames = glob.glob(basefolder + '*.gpx')
+#read and sort file names into the correct order
+filenames = natsorted(glob.glob(basefolder + '*.gpx'))
 nFiles = len(filenames)
 
 N = nFiles # Final frame includes all files/activities
