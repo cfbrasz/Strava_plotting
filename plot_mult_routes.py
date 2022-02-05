@@ -7,11 +7,13 @@ import numpy as np
 import glob
 import sys
 
+import utils
+
 # Usage:
 # python3 plot_mult_routes.py [N] [Nstart] [zoomIn]
-# N is the number of activities to include
+# N is the upper limit of the activity number to include
 # N<0 includes all activites (and is the default value)
-# Start from Nstart (default 0)
+# Start from Nstart (default 0) and include activities through N
 # zoomIn = 1 or 0 (default 0), slightly tighter frame
 
 # Downloaded Strava data with https://support.strava.com/hc/en-us/articles/216918437-Exporting-your-Data-and-Bulk-Export
@@ -49,6 +51,7 @@ if checkBadFiles:
 
 basefolder = 'exported_data/activities_gpx/'
 outfolder = 'plots/'
+utils.mkdir_if_needed(outfolder)
 
 filenames = glob.glob(basefolder + '*.gpx')
 nFiles = len(filenames)
@@ -91,20 +94,6 @@ if location == 2:
 
   locName = 'ADK'
 
-def check_inbounds(route_df, threshold_angle_diff=1, location=1):
-  "Check whether first point of path is within threshold_angle_diff degrees latitude and longitude from target point for specified location to decide whether to plot it."
-  lat1 = route_df['latitude'][0]
-  lon1 = route_df['longitude'][0]
-
-  if location == 1: # Centered on Cambridge
-    latTarget=42.36
-    lonTarget=-71.10
-  if location == 2: # Adirondacks
-    latTarget=44.3
-    lonTarget=-74.3
-
-  return (abs(lat1 - latTarget) < threshold_angle_diff) and (abs(lon1 - lonTarget) < threshold_angle_diff)
-
 skipFiles=1 # skipFiles=1: plot every file
 # skipFiles = 10: plot every 10th file
 if debug:
@@ -135,14 +124,14 @@ for i in range(Nstart,N,skipFiles):
 
   activity_type = track.type
   c='C5' # brown if not matching - don't think I have any others though
-    alphaC=0.3
-    if activity_type == 'Ride':
-      c = 'C0' # Blue
-      alphaC=0.15
-    elif activity_type == 'Run':
-      c = 'C3' # Red
-    elif activity_type == 'Hike' or activity_type == 'Walk':
-      c = 'C2' # Green
+  alphaC=0.3
+  if activity_type == 'Ride':
+    c = 'C0' # Blue
+    alphaC=0.15
+  elif activity_type == 'Run':
+    c = 'C3' # Red
+  elif activity_type == 'Hike' or activity_type == 'Walk':
+    c = 'C2' # Green
 
   route_df = pd.DataFrame(route_info)
   df_diff = abs(route_df.diff()) # Difference from one point to the next
@@ -161,7 +150,7 @@ for i in range(Nstart,N,skipFiles):
       includePlot=0
 
 
-  if check_inbounds(route_df, location=location):
+  if utils.check_inbounds(route_df, location=location):
     if includePlot:
       plt.plot(route_df['longitude'], route_df['latitude'], c=c, lw=0.5, alpha=alphaC)
   else:

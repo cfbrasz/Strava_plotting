@@ -5,6 +5,8 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
 
+import utils
+
 # Plot single route of gps data
 
 basefolder = 'exported_data/activities_gpx/'
@@ -14,6 +16,7 @@ basefolder = 'exported_data/activities_gpx/'
 filenum = 1101776812
 
 outfolder = 'plots/'
+utils.mkdir_if_needed(outfolder)
 
 gpx_filename = basefolder + str(filenum) + '.gpx'
 

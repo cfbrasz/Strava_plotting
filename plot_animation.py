@@ -8,6 +8,7 @@ import glob
 import sys
 
 from natsort import natsorted
+import utils
 
 # Usage:
 # python3 plot_animation.py [Nstart] [frameSkip] [zoomIn]
@@ -42,7 +43,7 @@ zoomIn=0
 if len(args) > 3:
   zoomIn = int(args[3])
 
-debug=0 # Only analyze 1/10 of the files in debug mode
+debug=1 # Only analyze 1/10 of the files in debug mode
 diff_threshold=0.005 # threshold difference between lat or long for 2 consecutive points in activity
 # Further points are probably errant and look bad on map
 
@@ -53,6 +54,8 @@ if zoomIn:
 else:
   outfolder += 'vary_N/'
 suf=''
+
+utils.mkdir_if_needed(outfolder)
 
 #read and sort file names into the correct order
 filenames = natsorted(glob.glob(basefolder + '*.gpx'))
@@ -84,25 +87,11 @@ longWid = latWid/longScale
 lonMin = lonCenter - longWid/2
 lonMax = lonCenter + longWid/2
 
-def check_inbounds(route_df, threshold_angle_diff=1, location=1):
-  "Check whether first point of path is within threshold_angle_diff degrees latitude and longitude from target point for specified location to decide whether to plot it."
-  lat1 = route_df['latitude'][0]
-  lon1 = route_df['longitude'][0]
-
-  if location == 1: # Centered on Cambridge
-    latTarget=42.36
-    lonTarget=-71.10
-  if location == 2: # Adirondacks
-    latTarget=44.3
-    lonTarget=-74.3
-
-  return (abs(lat1 - latTarget) < threshold_angle_diff) and (abs(lon1 - lonTarget) < threshold_angle_diff)
-
 skipFiles=1
 if debug:
-  skipFiles=10
+  skipFiles=100
   suf+='_skip%d' % skipFiles
-  frameSkip=10 
+  frameSkip=100
 
 longs = []
 lats = []
@@ -147,7 +136,7 @@ for i in range(0,N,skipFiles):
   activity_type = track.type
   activity_types += [activity_type] 
 
-  includePlot += [check_inbounds(route_df, location=location) and passDistThreshold]
+  includePlot += [utils.check_inbounds(route_df, location=location) and passDistThreshold]
 
 # Now plot the cumulative combinations of activities for each frame of the
 # animation
