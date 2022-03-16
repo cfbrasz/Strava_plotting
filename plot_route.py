@@ -7,13 +7,13 @@ import numpy as np
 
 import utils
 
-# Plot single route of gps data
+# Simple script to plot single route of gps data
 
 basefolder = 'exported_data/activities_gpx/'
-#basefolder = 'exported_data/activities/'
+basefolder = 'exported_data/activities/'
 
 # Specify file number to be plotted
-filenum = 1101776812
+filenum = 7090627935
 
 outfolder = 'plots/'
 utils.mkdir_if_needed(outfolder)
@@ -41,6 +41,9 @@ for track in gpx.tracks:
       }) 
 
 #print(route_info[:3])
+
+activity_type = track.type
+print(activity_type)
 
 route_df = pd.DataFrame(route_info)
 
