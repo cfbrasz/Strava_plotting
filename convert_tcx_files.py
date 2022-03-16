@@ -1,11 +1,13 @@
 from tcx2gpx import TCX2GPX
 import glob
 import shutil
+import utils
 
 folder='exported_data/activities/'
 filenames = glob.glob(folder + '*.tcx')
 
 outfolder=folder[:-1] + '_gpx/'
+utils.mkdir_if_needed(outfolder)
 
 # Convert all tcx files to gpx
 # Note that the activity type may not be correct - in my case, using a Samsung
